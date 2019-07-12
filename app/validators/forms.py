@@ -156,3 +156,11 @@ class CreateOrUpdateBookForm(Form):
     author = StringField(validators=[DataRequired(message='必须传入图书作者')])
     summary = StringField(validators=[DataRequired(message='必须传入图书综述')])
     image = StringField(validators=[DataRequired(message='必须传入图书插图')])
+
+
+class ThirdClientForm(Form):
+    code = StringField(validators=[DataRequired(message='必须传入code')])
+
+class WxClientForm(Form):
+    code = StringField(validators=[DataRequired(message='必须传入code')])
+    userInfo = StringField(validators=[DataRequired(message='用户信息不可为空')])
