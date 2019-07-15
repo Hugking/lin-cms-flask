@@ -3,7 +3,7 @@
     :license: MIT, see LICENSE for more details.
 """
 
-import time
+import time,datetime
 import re
 from flask import request, current_app
 
@@ -30,3 +30,6 @@ def camel2line(camel: str):
     p = re.compile(r'([a-z]|\d)([A-Z])')
     line = re.sub(p, r'\1_\2', camel).lower()
     return line
+
+def get_current_date(format="%Y-%m-%d %H:%M:%S"):
+    return datetime.datetime.now()

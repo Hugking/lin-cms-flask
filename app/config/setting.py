@@ -21,3 +21,18 @@ PLUGIN_PATH = {
     'poem': {'path': 'app.plugins.poem', 'enable': True, 'version': '0.0.1', 'limit': 20},
     'oss': {'path': 'app.plugins.oss', 'enable': True, 'version': '0.0.1', 'access_key_id': 'not complete', 'access_key_secret': 'not complete', 'endpoint': 'http://oss-cn-shenzhen.aliyuncs.com', 'bucket_name': 'not complete', 'upload_folder': 'app', 'allowed_extensions': ['jpg', 'gif', 'png', 'bmp']}
 }
+
+#支付单
+PAY_STATUS_DISPLAY_MAPPING = {
+    "0": "待支付",
+    "1": "支付成功",
+    "2": "退款成功",
+    "-1": "部分退款",
+    "-2": "支付取消"
+}
+
+PAY_REFUND_STATUS_DISPLAY_MAPPING = {
+    "0": "正在退款",
+    "1": "退款成功",
+    '-1':"退款失败"
+}
