@@ -1,6 +1,6 @@
 from lin.exception import NotFound, ParameterException,Success
 from lin.interface import InfoCrud as Base
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer,ForeignKey
 
 class Member(Base): 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -10,6 +10,9 @@ class Member(Base):
     avatar = Column(String(200), nullable=False, default=' ')
     salt = Column(String(32), nullable=False, default=' ')
     reg_ip = Column(String(100), nullable=False, default=' ')
+    username = Column(String(255),nullable=False,default='')
+    password = Column(String(255),nullable=False,default='')
+    level_id = Column(Integer,ForeignKey('member_level.id',onupdate='CASCADE'),nullable=False,default='1')
     status = Column(Integer, nullable=False,default='1')
 
     # @classmethod
