@@ -6,5 +6,5 @@ class AdPosition(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     width = Column(Integer,nullable=False,default='0')
     height = Column(Integer,nullable=False,default='0')
-    name = Column(String(60),nullable=False,dafault='')
-    desc = Column(String(255),nullable=False,dafault='')
+    name = Column(String(60),nullable=False,default='')
+    desc = Column(String(255),nullable=False,default='')

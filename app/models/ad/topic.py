@@ -16,4 +16,4 @@ class Topic(Base):
     topic_template_id = Column(Integer,nullable=False,default='0')
     topic_tag_id = Column(Integer,nullable=False,default='0')
     is_show = Column(Integer,nullable=False,default='0')
-    sort_order = Column(Integer,nullablle=False,default='0')
+    sort_order = Column(Integer,nullable=False,default='0')
