@@ -91,6 +91,11 @@ class ThirdBind(Base):
         )
         token = "%s#%s" % (cls.generate_auth_code(member_info), member_info.id)
         resp['data'] = {'token': token}
+        resp['data']['info'] = {
+        "member_id":member_info.id,
+        "nickname": member_info.nickname,
+        "avatar_url": member_info.avatar
+        }
         return resp
 
     @staticmethod

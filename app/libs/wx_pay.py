@@ -73,17 +73,23 @@ class WxPay():
         if r.status_code == 200:
             res = self.xml_to_dict(r.text)
             if res.get('return_msg') == "OK":
-                pay_sign_data = {
-                    'out_trade_no': res.get('out_sign_no'),
-                    'out_refund_no':res.get('out_refund_no'),
-                    'refund_id': res.get('refund_id'),
-                    'refund_fee':res.get('refund_fee'),
-                    'total_fee': res.get('total_fee')
-                }
-                return pay_sign_data
+                if res.get('err_code_des'):
+                    pay_sign_data = {
+                        'err_code_des': res.get('err_code_des')
+                    }
+                    return pay_sign_data
+                else:
+                    pay_sign_data = {
+                        'out_trade_no': res.get('out_sign_no'),
+                        'out_refund_no':res.get('out_refund_no'),
+                        'refund_id': res.get('refund_id'),
+                        'refund_fee':res.get('refund_fee'),
+                        'total_fee': res.get('total_fee')
+                    }
+                    return pay_sign_data
             else:
                 pay_sign_data = {
-                    'err_code_desc':res.get('err_code') + res.get('err_code_desc'),
+                    'err_code_desc':res.get('err_code_desc'),
                     'out_trade_no': res.get('out_trade_no'),
                     'out_refund_no':res.get('out_refund_no'),
                     'refund_id': res.get('refund_id'),
