@@ -12,7 +12,7 @@ class Member(Base):
     reg_ip = Column(String(100), nullable=False, default=' ')
     username = Column(String(255),nullable=False,default='')
     password = Column(String(255),nullable=False,default='')
-    level_id = Column(Integer,ForeignKey('member_level.id',onupdate='CASCADE'),nullable=False,default='1')
+    level_id = Column(Integer,index=True,nullable=False,default='1')
     status = Column(Integer, nullable=False,default='1')
 
     # @classmethod

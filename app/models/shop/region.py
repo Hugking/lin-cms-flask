@@ -4,7 +4,7 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text, ForeignKey,DateTim
 
 class Region(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    parent_id = Column(Integer,Index=True,nullable=False,default='0')
+    parent_id = Column(Integer,index=True,nullable=False,default='0')
     name = Column(String(255),nullable=False,default='')
-    type = Column(Integer,Index=True,nullable=False,default='2')
-    agency_id = Column(Integer,Index=True,nullable=False,default='0')
+    type = Column(Integer,index=True,nullable=False,default='2')
+    agency_id = Column(Integer,index=True,nullable=False,default='0')

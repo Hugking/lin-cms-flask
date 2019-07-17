@@ -4,8 +4,8 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text,Index, ForeignKey
 
 class Cart(Base):
     id = Column(Integer, primary_key=True, autoincrement=True) 
-    member_id = Column(Integer,ForeignKey('member.id',ondelete='CASCADE', onupdate='CASCADE'),nullable=False, default='0')
-    session_id = Column(String(32),Index=True,nullable=False, default='')
+    member_id = Column(Integer,index=True,nullable=False, default='0')
+    session_id = Column(String(32),index=True,nullable=False, default='')
     goods_id = Column(Integer,nullable=False, default='0')
     goods_sn = Column(String(60),nullable=False, default='')
     product_id = Column(Integer,nullable=False, default='0')

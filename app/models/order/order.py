@@ -5,10 +5,10 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text, ForeignKey,DateTim
 class Order(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     order_sn = Column(String(40),nullable=False,default='')
-    member_id = Column(Integer, ForeignKey('member.id',ondelete='CASCADE',onupdate='CASCADE'),nullable=False,default='')
-    order_status = Column(Integer,Index=True,nullable=False,default='0')
-    shipping_status = Column(Integer,Index=True,nullable=False,default='0')
-    pay_status = Column(Integer,Index=True,nullable=False,default='0')
+    member_id = Column(Integer, index=True,nullable=False,default='')
+    order_status = Column(Integer,index=True,nullable=False,default='0')
+    shipping_status = Column(Integer,index=True,nullable=False,default='0')
+    pay_status = Column(Integer,index=True,nullable=False,default='0')
     consignee = Column(String(60),nullable=False,default='')
     country = Column(Integer,nullable=False,default='0')
     province = Column(Integer,nullable=False,default='0')
@@ -19,7 +19,7 @@ class Order(Base):
     postscript = Column(String(255),nullable=False,default='')
     shipping_fee = Column(DECIMAL(10,2),nullable=False,default='0.00')
     pay_name = Column(String(255),nullable=False,default='')
-    pay_id = Column(Integer,Index=True,nullable=False,default='0')
+    pay_id = Column(Integer,index=True,nullable=False,default='0')
     actual_price = Column(DECIMAL(10,2),nullable=False,default='0.00')# 实际支付金额
     integral = Column(Integer,nullable=False,default='0')
     integral_money = Column(Integer,nullable=False,default='0.00')

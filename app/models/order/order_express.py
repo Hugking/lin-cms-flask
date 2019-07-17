@@ -4,7 +4,7 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text, ForeignKey,DateTim
 
 class OrderExpress(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(Integer,ForeignKey('order.id',ondelete='CASCADE',onupdate='CASCADE'),nullable=False,default='0')
+    order_id = Column(Integer,index=True,nullable=False,default='0')
     shipper_id = Column(Integer,nullable=False,default='0')
     shipper_name = Column(String(255),nullable=False,default='')# 物流公司名称
     shipper_code = Column(String(255),nullable=False,default='')# 物流公司代码

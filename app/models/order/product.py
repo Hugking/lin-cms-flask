@@ -4,7 +4,7 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text, ForeignKey,DateTim
 
 class Product(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    goods_id = Column(Integer,ForeignKey('goods.id',onupdate='CASCADE'),nullable=False,default='0')
+    goods_id = Column(Integer,index=True,nullable=False,default='0')
     goods_sn = Column(Integer,nullable=False,default='0')
     goods_number = Column(Integer,nullable=False,default='0')
     retail_price = Column(DECIMAL(10,2),nullable=False,default='0.00')

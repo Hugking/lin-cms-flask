@@ -4,8 +4,8 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text, ForeignKey,DateTim
 
 class OrderGoods(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    order_id = Column(Integer,ForeignKey('order.id',onupdate='CASCADE'),nullable=False,default='0')
-    goods_id = Column(Integer,ForeignKey('goods.id',onupdate='CASCADE'),nullable=False,default='0')
+    order_id = Column(Integer,index=True,nullable=False,default='0')
+    goods_id = Column(Integer,index=True,nullable=False,default='0')
     goods_name = Column(String(255),nullable=False,default='')
     goods_sn = Column(Integer,nullable=False,default='0')
     product_id = Column(Integer,nullable=False,default='0')

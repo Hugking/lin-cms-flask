@@ -4,7 +4,7 @@ from sqlalchemy import Column, String, Integer, DECIMAL,Text, ForeignKey,DateTim
 
 class MemberCoupon(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    member_id = Column(Integer,ForeignKey('member.id',onupdate='CASCADE',ondelete='CASCADE'),nullable=False,default='0')
+    member_id = Column(Integer,index=True,nullable=False,default='0')
     coupon_id = Column(Integer,nullablle=False,default='0')
     coupon_number = Column(Integer,nullablle=False,default='0') 
     used_time = Column(DateTime,nullable=False,default='')

@@ -9,7 +9,7 @@ class Brand(Base):
     simple_desc = Column(String(255),nullable=False,default='')
     pic_url = Column(String(255),nullable=False,default='')
     sort_order = Column(Integer,nullable=False,default='')
-    is_show = Column(Integer,Index=True,nullable=False,default='1')
+    is_show = Column(Integer,index=True,nullable=False,default='1')
     floor_price = Column(DECIMAL(10,2),nullable=False,default='0.00')
     app_list_pic_url = Column(String(255),nullable=False,default='')
     is_new = Column(Integer,nullable=False,default='0')
