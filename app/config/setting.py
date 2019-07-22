@@ -8,6 +8,8 @@ from datetime import timedelta
 # 分页配置
 COUNT_DEFAULT = 10
 PAGE_DEFAULT = 0
+PAGESIZE = 10
+current_page = 1
 
 # 令牌配置
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
