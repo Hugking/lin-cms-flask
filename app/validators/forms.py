@@ -3,7 +3,7 @@
     :license: MIT, see LICENSE for more details.
 """
 from lin import manager
-from wtforms import DateTimeField, PasswordField, FieldList, IntegerField, StringField
+from wtforms import DateTimeField, PasswordField, FieldList, IntegerField, StringField, FloatField, DecimalField, TextField
 from wtforms.validators import DataRequired, Regexp, EqualTo, length, Optional, NumberRange
 import time
 
@@ -156,3 +156,109 @@ class CreateOrUpdateBookForm(Form):
     author = StringField(validators=[DataRequired(message='必须传入图书作者')])
     summary = StringField(validators=[DataRequired(message='必须传入图书综述')])
     image = StringField(validators=[DataRequired(message='必须传入图书插图')])
+
+
+class ThirdClientForm(Form):
+    code = StringField(validators=[DataRequired(message='必须传入code')])
+
+class WxClientForm(Form):
+    code = StringField(validators=[DataRequired(message='必须传入code')])
+    userInfo = StringField(validators=[DataRequired(message='用户信息不可为空')])
+
+class PayCreateForm(Form):
+    member_id = IntegerField('会员id',validators=[DataRequired(message='请传入会员id'), NumberRange(message='会员id必须大于0', min=1)])
+    price = StringField('price', validators=[DataRequired(message='价格不能为空')])
+    note = StringField(validators=[DataRequired(message='商品描述不可为空')])
+
+class PayForm(Form):
+    member_id = IntegerField('会员id',validators=[DataRequired(message='请传入会员id'), NumberRange(message='会员id必须大于0', min=1)])
+    order_sn = StringField(validators=[DataRequired(message='请传入订单编号')])
+
+class PayRefundForm(Form):
+    member_id = IntegerField('会员id',validators=[DataRequired(message='请传入会员id'), NumberRange(message='会员id必须大于0', min=1)])
+    order_sn = StringField(validators=[DataRequired(message='请传入订单编号')])
+    refund_sn = StringField()
+    refund_fee = StringField(validators=[DataRequired(message='退款金额不能为空')])
+    refund_desc = TextField(validators=[DataRequired(message='退款原因不能为空')])
+
+class CreateCategoryForm(Form):
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    keywords = StringField(validators=[DataRequired(message='关键字不能为空')])
+    front_name = StringField()
+    front_desc = StringField()
+    parent_id = StringField()
+    sort_order = StringField()
+    show_index = StringField()
+    banner_url = StringField()
+    icon_url  = StringField()
+    img_url = StringField()
+    wap_banner_url = StringField()
+    level = StringField()
+    type = StringField()
+
+class CreateAttributeCategoryForm(Form):
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+
+class SearchAllForm(Form):
+    page = StringField(validators=[DataRequired(message='页码不能为空')])
+    size = StringField(validators=[DataRequired(message='页数据不能为空')])
+
+class CreateAttrForm(Form):
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    attribute_category_id = StringField(validators=[DataRequired(message='属性类不能为空')])
+    input_type = StringField()
+    values = StringField()
+    sort_order = StringField()
+
+class SearchNameForm(Form):
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+
+class CreateKeywordsForm(Form):
+    is_hot = StringField()
+    is_default = StringField()
+    is_show = StringField()
+    sort_order = StringField()
+    scheme_url = StringField()
+    type = StringField()
+
+class CreateBrandForm(Form):
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    list_pic_url = StringField()
+    simple_desc = StringField()
+    pic_url = StringField()
+    sort_order = StringField()
+    is_show = StringField()
+    floor_price = StringField()
+    app_list_pic_url = StringField()
+    is_new = StringField()
+    new_pic_url = StringField()
+    new_sort_order = StringField()
+
+class CreateGoodsForm(Form):
+    category_id = StringField(validators=[DataRequired(message='分类不能为空')])
+    goods_sn = StringField()
+    name = StringField(validators=[DataRequired(message='名称不能为空')])
+    brand_id = StringField(validators=[DataRequired(message='品牌不能为空')])
+    goods_num = StringField(validators=[DataRequired(message='商品数量不能为空')])
+    keywords = StringField()
+    goods_brief = StringField()
+    goods_desc = StringField(validators=[DataRequired(message='商品描述不能为空')])
+    is_on_sale = StringField()
+    sort_order = StringField()
+    is_delete = StringField()
+    attribute_category = StringField()
+    counter_price = StringField()
+    extra_price = StringField()
+    is_new = StringField()
+    goods_unit = StringField(validators=[DataRequired(message='单位不能为空')])
+    primary_pic_url = StringField(validators=[DataRequired(message='主图不能为空')])
+    list_pic_url = StringField()
+    retail_price = StringField()
+    sell_volume = StringField()
+    primary_product_id = StringField()
+    unit_price = StringField(validators=[DataRequired(message='单价不能为空')])
+    promotion_desc = StringField()
+    promotion_tag = StringField()
+    app_exclusive_price = StringField()
+    is_limited = StringField()
+    is_hot = StringField()

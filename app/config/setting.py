@@ -5,7 +5,6 @@
 
 from datetime import timedelta
 
-
 class BaseConfig(object):
     """
     基础配置
@@ -13,9 +12,26 @@ class BaseConfig(object):
     # 分页配置
     COUNT_DEFAULT = 10
     PAGE_DEFAULT = 0
-
+    PAGESIZE = 10
+    current_page = 1
+    
     # 屏蔽 sql alchemy 的 FSADeprecationWarning
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    
+    #支付单
+    PAY_STATUS_DISPLAY_MAPPING = {
+        "0": "待支付",
+        "1": "支付成功",
+        "2": "退款成功",
+        "-1": "部分退款",
+        "-2": "支付取消"
+    }
+
+    PAY_REFUND_STATUS_DISPLAY_MAPPING = {
+        "0": "正在退款",
+        "1": "退款成功",
+        '-1':"退款失败"
+    }
 
 
 class DevelopmentConfig(BaseConfig):
@@ -56,3 +72,4 @@ class ProductionConfig(BaseConfig):
                 'bucket_name': 'not complete', 'upload_folder': 'app',
                 'allowed_extensions': ['jpg', 'gif', 'png', 'bmp']}
     }
+
