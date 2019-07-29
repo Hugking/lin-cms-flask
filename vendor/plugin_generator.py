@@ -7,7 +7,7 @@ import os
 
 banner = """
 \"""
-    :copyright: © 2019 by the Lin team.
+    :copyright: © 2019 by the wkaanig.
     :license: MIT, see LICENSE for more details.
 \"""
 """
@@ -25,15 +25,42 @@ def test():
 
 init = """
 from .controller import {0}_api
+from .model import *
+
+
+def initial_data():
+    from app.app import create_app
+    from lin.db import db
+
+    app = create_app()
+    return app
 """
 
 info = """
 __name__ = '{0}'
 __version__ = '0.1.0'
-__author__ = 'Team Lin'
+__author__ = 'wkaanig'
 """
 
 readme = """# {0}"""
+
+interInfo = """
+from ..model import *
+
+
+class {0}():
+    def test_{0}():
+        pass
+"""
+
+formInfo = """
+from lin import manager
+from wtforms import DateTimeField, PasswordField, FieldList, IntegerField, StringField, FloatField, DecimalField, TextField
+from wtforms.validators import DataRequired, Regexp, EqualTo, length, Optional, NumberRange
+import time
+
+from lin.forms import Form
+"""
 
 
 def create_plugin(name: str):
@@ -61,6 +88,15 @@ def create_plugin(name: str):
         f.write(banner + controller.format(name))
 
     open(os.path.join(appdir, "model.py"), mode="x", encoding="utf-8")
+
+    with open(os.path.join(appdir, "form.py"), mode="x", encoding="utf-8") as f:
+        f.write(banner + formInfo)
+
+    interfacedir = os.path.join(appdir, "interface")
+    os.mkdir(interfacedir)
+
+    with open(os.path.join(interfacedir, name + ".py"), mode="x", encoding="utf-8") as f:
+        f.write(banner + interInfo.format(name.capitalize()))
 
 
 if __name__ == '__main__':
