@@ -37,5 +37,5 @@ WX_APP = {
 }
 
 APP = {
-    'domain': 'http://flask.wkaanig.cn'
+    'domain': 'http://test.wkaanig.cn'
 }

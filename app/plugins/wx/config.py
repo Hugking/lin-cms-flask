@@ -3,8 +3,8 @@ wx_app = {
     'app_secret': '8d11a05dc9127dd9cfd23e28e03bba2b',
     'paykey': '02CBCE018C664DEB4462AB314B710193',
     'mch_id': '1531633161',
-    'callback_url': 'http://flask.wkaanig.cn/plugin/wx/callback',
-    'refund_url': 'http://flask.wkaanig.cn/plugin/wx/rcallback'
+    'callback_url': 'http://test.wkaanig.cn/plugin/wx/callback',
+    'refund_url': 'http://test.wkaanig.cn/plugin/wx/rcallback'
 }
 # 支付单
 
