@@ -13,10 +13,10 @@ from lin import Lin
 def register_blueprints(app):
     from app.api.v1 import create_v1
     from app.api.cms import create_cms
-    from app.api.wx import create_wx
+    # from app.api.wx import create_wx
     app.register_blueprint(create_v1(), url_prefix='/v1')
     app.register_blueprint(create_cms(), url_prefix='/cms')
-    app.register_blueprint(create_wx(), url_prefix='/wx')
+    # app.register_blueprint(create_wx(), url_prefix='/wx')
 
 
 def apply_cors(app):
@@ -64,7 +64,7 @@ def register_after_request(app):
         return resp
 
 
-def create_app(register_all=True, environment='production'):
+def create_app(register_all=True, environment='development'):
     app = Flask(__name__, static_folder='./assets')
     app.config['ENV'] = environment
     env = app.config.get('ENV')
