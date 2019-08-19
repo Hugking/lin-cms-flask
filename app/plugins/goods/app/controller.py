@@ -1,4 +1,3 @@
-
 """
     :copyright: Â© 2019 by the wkaanig.
     :license: MIT, see LICENSE for more details.
@@ -43,8 +42,8 @@ def get_goodss():
 def search_goods():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     mini = True if 'mini' in request.values else False
-    form = SearchNameForm().validate_for_api()
-    goods = Goods.search_by_name(form.name.data, type=mini)
+    form = SearchGoodsForm().validate_for_api()
+    goods = Goods.search_by_keywords(form, mini)
     if goods is None:
         resp['code'] = -1
         resp['msg'] = "未查询到相关信息"
@@ -107,6 +106,8 @@ def count_goods():
 goods_attr 单个商品属性
 ************************************
 """
+
+
 @goods_api.route('/goods_attr/<id>', methods=['GET'])
 def get_goods_attr(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -125,7 +126,8 @@ def get_goods_attrs():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     mini = True if 'mini' in request.values else False
     form = SearchAllForm().validate_for_api()
-    goods_attr = GoodsAttribute.get_all({'page': int(form.page.data), 'size': int(form.size.data)}, mini)
+    goods_attr = GoodsAttribute.get_all({'page': int(form.page.data), 'size': int(form.size.data)},
+                                        mini)
     if goods_attr is None:
         resp['code'] = -1
         resp['msg'] = "暂无商品属性，请先创建"
@@ -137,9 +139,9 @@ def get_goods_attrs():
 @goods_api.route('/goods_attr/search', methods=['POST'])
 def search_goods_attr():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    params = request.values
-    mini = True if 'mini' in params else False
-    goods_attr = GoodsAttribute.search_by_keywords(params, mini)
+    form = SearchGoodsAttrForm().validate_for_api()
+    mini = True if form.mini.data else False
+    goods_attr = GoodsAttribute.search_by_keywords(form, mini)
     if goods_attr is None:
         resp['code'] = -1
         resp['msg'] = "未查询到相关信息"
@@ -192,11 +194,14 @@ def delete_goods_attr(id):
         return jsonify(resp)
     return jsonify(resp)
 
+
 """
 ****************************
 cate 首页分类
 ****************************
 """
+
+
 @goods_api.route('/cate/<id>', methods=['GET'])
 def get_cate(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -207,11 +212,13 @@ def get_cate(id):
         return jsonify(resp)
     resp['data']['category'] = category
     return jsonify(resp)
-    
+
+
 @goods_api.route('/cate/', methods=['GET'])
 def get_cates():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    category = Category.get_all()
+    form = SearchCategoryForm().validate_for_api()
+    category = Category.get_all(form)
     if category is None:
         resp['code'] = -1
         resp['msg'] = "暂无此分类，请先创建"
@@ -219,11 +226,12 @@ def get_cates():
     resp['data']['category'] = category
     return jsonify(resp)
 
-@goods_api.route('/cate/search',methods=['POST'])
+
+@goods_api.route('/cate/search', methods=['POST'])
 def search_cate():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    form = SearchNameForm().validate_for_api()
-    category = Category.search_by_name(form.name.data)
+    form = SearchCategoryForm().validate_for_api()
+    category = Category.search_by_keywords(form)
     if category is None:
         resp['code'] = -1
         resp['msg'] = "未查询到相关分类"
@@ -231,7 +239,8 @@ def search_cate():
     resp['data']['category'] = category
     return jsonify(resp)
 
-@goods_api.route('/cate/',methods=['POST'])
+
+@goods_api.route('/cate/', methods=['POST'])
 def new_cate():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateCategoryForm().validate_for_api()
@@ -243,11 +252,12 @@ def new_cate():
     resp['data']['category'] = category
     return jsonify(resp)
 
-@goods_api.route('/cate/<id>',methods=['PUT'])
+
+@goods_api.route('/cate/<id>', methods=['PUT'])
 def update_cate(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateCategoryForm().validate_for_api()
-    category =  Category.edit(id,form)
+    category = Category.edit(id, form)
     if category is False:
         resp['code'] = -1
         resp['msg'] = "此分类不存在或名称重复"
@@ -255,21 +265,25 @@ def update_cate(id):
     resp['data']['category'] = category
     return jsonify(resp)
 
-@goods_api.route('/cate/<id>',methods=['DELETE'])
+
+@goods_api.route('/cate/<id>', methods=['DELETE'])
 def delete_cate(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    category =  Category.remove(id)
+    category = Category.remove(id)
     if category is False:
         resp['code'] = -1
         resp['msg'] = "此分类不存在或已删除"
         return jsonify(resp)
     return jsonify(resp)
 
+
 """
 ****************************
 attr_cate 细节分类
 ****************************
 """
+
+
 @goods_api.route('/attr_cate/<id>', methods=['GET'])
 def get_attr_cate(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -280,12 +294,14 @@ def get_attr_cate(id):
         return jsonify(resp)
     resp['data']['attr_cate'] = attr_cate
     return jsonify(resp)
-    
+
+
 @goods_api.route('/attr_cate/', methods=['GET'])
 def get_attr_cates():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = SearchAllForm().validate_for_api()
-    attr_cate = AttributeCategory.get_all({'page':int(form.page.data),'size':int(form.size.data)})
+    attr_cate = AttributeCategory.get_all(
+        {'page': int(form.page.data), 'size': int(form.size.data)})
     if attr_cate is None:
         resp['code'] = -1
         resp['msg'] = "暂无属性类，请先创建"
@@ -293,7 +309,8 @@ def get_attr_cates():
     resp['data']['attr_cate'] = attr_cate
     return jsonify(resp)
 
-@goods_api.route('/attr_cate/search',methods=['POST'])
+
+@goods_api.route('/attr_cate/search', methods=['POST'])
 def search_attr_cate():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = SearchNameForm().validate_for_api()
@@ -305,7 +322,8 @@ def search_attr_cate():
     resp['data']['attr_cate'] = attr_cate
     return jsonify(resp)
 
-@goods_api.route('/attr_cate/',methods=['POST'])
+
+@goods_api.route('/attr_cate/', methods=['POST'])
 def new_attr_cate():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateAttributeCategoryForm().validate_for_api()
@@ -317,11 +335,12 @@ def new_attr_cate():
     resp['data']['attr_cate'] = attr_cate
     return jsonify(resp)
 
-@goods_api.route('/attr_cate/<id>',methods=['PUT'])
+
+@goods_api.route('/attr_cate/<id>', methods=['PUT'])
 def update_attr_cate(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateAttributeCategoryForm().validate_for_api()
-    attr_cate =  AttributeCategory.edit(id,form)
+    attr_cate = AttributeCategory.edit(id, form)
     if attr_cate is False:
         resp['code'] = -1
         resp['msg'] = "该类别不存在或名称重复"
@@ -329,21 +348,25 @@ def update_attr_cate(id):
     resp['data']['attr_cate'] = attr_cate
     return jsonify(resp)
 
-@goods_api.route('/attr_cate/<id>',methods=['DELETE'])
+
+@goods_api.route('/attr_cate/<id>', methods=['DELETE'])
 def delete_attr_cate(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    attr_cate =  AttributeCategory.remove(id)
+    attr_cate = AttributeCategory.remove(id)
     if attr_cate is False:
         resp['code'] = -1
         resp['msg'] = "该类别不存在或已删除"
         return jsonify(resp)
     return jsonify(resp)
 
+
 """
 ****************************
 attr 总属性
 ****************************
 """
+
+
 @goods_api.route('/attr/<id>', methods=['GET'])
 def get_attr(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -355,13 +378,14 @@ def get_attr(id):
         return jsonify(resp)
     resp['data']['attr'] = attr
     return jsonify(resp)
-    
+
+
 @goods_api.route('/attr/', methods=['GET'])
 def get_attrs():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     mini = True if 'mini' in request.values else False
     form = SearchAllForm().validate_for_api()
-    attr = Attribute.get_all({'page':int(form.page.data),'size':int(form.size.data)}, mini)
+    attr = Attribute.get_all({'page': int(form.page.data), 'size': int(form.size.data)}, mini)
     if attr is None:
         resp['code'] = -1
         resp['msg'] = "暂无属性，请先创建"
@@ -369,12 +393,13 @@ def get_attrs():
     resp['data']['attr'] = attr
     return jsonify(resp)
 
-@goods_api.route('/attr/search',methods=['POST'])
+
+@goods_api.route('/attr/search', methods=['POST'])
 def search_attr():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     mini = True if 'mini' in request.values else False
-    form = SearchNameForm().validate_for_api()
-    attr = Attribute.search_by_name(form.name.data,type=mini)
+    params = request.values
+    attr = Attribute.search_by_keywords(params, type=mini)
     if attr is None:
         resp['code'] = -1
         resp['msg'] = "未查询到相关信息"
@@ -382,7 +407,8 @@ def search_attr():
     resp['data']['attr'] = attr
     return jsonify(resp)
 
-@goods_api.route('/attr/',methods=['POST'])
+
+@goods_api.route('/attr/', methods=['POST'])
 def new_attr():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateAttrForm().validate_for_api()
@@ -394,11 +420,12 @@ def new_attr():
     resp['data']['attr'] = attr
     return jsonify(resp)
 
-@goods_api.route('/attr/<id>',methods=['PUT'])
+
+@goods_api.route('/attr/<id>', methods=['PUT'])
 def update_attr(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateAttrForm().validate_for_api()
-    attr =  Attribute.edit(id,form)
+    attr = Attribute.edit(id, form)
     if attr is False:
         resp['code'] = -1
         resp['msg'] = "该属性不存在或名称重复"
@@ -406,20 +433,25 @@ def update_attr(id):
     resp['data']['attr'] = attr
     return jsonify(resp)
 
-@goods_api.route('/attr/<id>',methods=['DELETE'])
+
+@goods_api.route('/attr/<id>', methods=['DELETE'])
 def delete_attr(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    attr =  Attribute.remove(id)
+    attr = Attribute.remove(id)
     if attr is False:
         resp['code'] = -1
         resp['msg'] = "该属性不存在或已删除"
         return jsonify(resp)
     return jsonify(resp)
+
+
 """
 ****************************
 keywords 关键字
 ****************************
 """
+
+
 @goods_api.route('/keywords/<id>', methods=['GET'])
 def get_keywords(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -430,12 +462,13 @@ def get_keywords(id):
         return jsonify(resp)
     resp['data']['keywords'] = keywords
     return jsonify(resp)
-    
+
+
 @goods_api.route('/keywords/', methods=['GET'])
 def get_keywordss():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = SearchAllForm().validate_for_api()
-    keywords = Keywords.get_all({'page':int(form.page.data),'size':int(form.size.data)})
+    keywords = Keywords.get_all({'page': int(form.page.data), 'size': int(form.size.data)})
     if keywords is None:
         resp['code'] = -1
         resp['msg'] = "暂无关键词，请先创建"
@@ -443,7 +476,8 @@ def get_keywordss():
     resp['data']['keywords'] = keywords
     return jsonify(resp)
 
-@goods_api.route('/keywords/',methods=['POST'])
+
+@goods_api.route('/keywords/', methods=['POST'])
 def new_keywords():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateKeywordsForm().validate_for_api()
@@ -455,11 +489,12 @@ def new_keywords():
     resp['data']['keywords'] = keywords
     return jsonify(resp)
 
-@goods_api.route('/keywords/<id>',methods=['PUT'])
+
+@goods_api.route('/keywords/<id>', methods=['PUT'])
 def update_keywords(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateKeywordsForm().validate_for_api()
-    keywords =  Keywords.edit(id,form)
+    keywords = Keywords.edit(id, form)
     if keywords is False:
         resp['code'] = -1
         resp['msg'] = "该关键词不存在"
@@ -467,20 +502,25 @@ def update_keywords(id):
     resp['data']['keywords'] = keywords
     return jsonify(resp)
 
-@goods_api.route('/keywords/<id>',methods=['DELETE'])
+
+@goods_api.route('/keywords/<id>', methods=['DELETE'])
 def delete_keywords(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    keywords =  Keywords.remove(id)
+    keywords = Keywords.remove(id)
     if keywords is False:
         resp['code'] = -1
         resp['msg'] = "该关键词不存在或已删除"
         return jsonify(resp)
     return jsonify(resp)
+
+
 """
 ****************************
 brand 品牌
 ****************************
 """
+
+
 @goods_api.route('/brand/<id>', methods=['GET'])
 def get_brand(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -491,12 +531,13 @@ def get_brand(id):
         return jsonify(resp)
     resp['data']['brand'] = brand
     return jsonify(resp)
-    
+
+
 @goods_api.route('/brand/', methods=['GET'])
 def get_brands():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = SearchAllForm().validate_for_api()
-    brand = Brand.get_all({'page':int(form.page.data),'size':int(form.size.data)})
+    brand = Brand.get_all({'page': int(form.page.data), 'size': int(form.size.data)})
     if brand is None:
         resp['code'] = -1
         resp['msg'] = "暂无品牌，请先创建"
@@ -504,7 +545,8 @@ def get_brands():
     resp['data']['brand'] = brand
     return jsonify(resp)
 
-@goods_api.route('/brand/search',methods=['POST'])
+
+@goods_api.route('/brand/search', methods=['POST'])
 def search_brand():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = SearchNameForm().validate_for_api()
@@ -516,7 +558,8 @@ def search_brand():
     resp['data']['brand'] = brand
     return jsonify(resp)
 
-@goods_api.route('/brand/',methods=['POST'])
+
+@goods_api.route('/brand/', methods=['POST'])
 def new_brand():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateBrandForm().validate_for_api()
@@ -528,11 +571,12 @@ def new_brand():
     resp['data']['brand'] = brand
     return jsonify(resp)
 
-@goods_api.route('/brand/<id>',methods=['PUT'])
+
+@goods_api.route('/brand/<id>', methods=['PUT'])
 def update_brand(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
     form = CreateBrandForm().validate_for_api()
-    brand =  Brand.edit(id,form)
+    brand = Brand.edit(id, form)
     if brand is False:
         resp['code'] = -1
         resp['msg'] = "该品牌不存在或名称重复"
@@ -540,10 +584,11 @@ def update_brand(id):
     resp['data']['brand'] = brand
     return jsonify(resp)
 
-@goods_api.route('/brand/<id>',methods=['DELETE'])
+
+@goods_api.route('/brand/<id>', methods=['DELETE'])
 def delete_brand(id):
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
-    brand =  Brand.remove(id)
+    brand = Brand.remove(id)
     if brand is False:
         resp['code'] = -1
         resp['msg'] = "该品牌不存在或已删除"

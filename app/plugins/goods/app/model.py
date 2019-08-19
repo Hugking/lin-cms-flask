@@ -1,6 +1,6 @@
 from lin import db
 from lin.interface import InfoCrud as Base
-from sqlalchemy import Column, DateTime, Integer, Numeric, String, Text
+from sqlalchemy import Column, DateTime, Integer, Numeric, String, Text, or_
 
 
 class Attribute(Base):
@@ -15,7 +15,8 @@ class Attribute(Base):
 
     @property
     def get_attr_cate(cls):
-        attribute_category = AttributeCategory.query.filter_by(id=cls.attribute_category_id, delete_time=None).first()
+        attribute_category = AttributeCategory.query.filter_by(id=cls.attribute_category_id,
+                                                               delete_time=None).first()
         if attribute_category is None:
             return '无匹配'
         return attribute_category.name
@@ -52,7 +53,7 @@ class Keywords(Base):
     is_default = Column(Integer, index=True, nullable=False, default='0')
     is_show = Column(Integer, index=True, nullable=False, default='1')
     sort_order = Column(Integer, index=True, nullable=False, default='100')
-    scheme_url = Column(String(255), index=True, nullable=False, default='')  # è·³è½¬è¿žæŽ¥
+    scheme_url = Column(String(255), index=True, nullable=False, default='')
     type = Column(Integer, index=True, nullable=False, default='0')
 
 
@@ -79,7 +80,7 @@ class Goods(Base):
     __tablename__ = 'goods'
 
     id = Column(Integer, primary_key=True)
-    category_id = Column(Integer, nullable=False, index=True)
+    category_id = Column(String(255), nullable=False, index=True)
     goods_sn = Column(String(255), nullable=False, index=True)
     name = Column(String(255), nullable=False)
     brand_id = Column(Integer, nullable=False, index=True)
@@ -90,13 +91,13 @@ class Goods(Base):
     is_on_sale = Column(Integer, nullable=False)
     sort_order = Column(Integer, nullable=False, index=True)
     is_delete = Column(Integer, nullable=False)
-    attribute_category = Column(Integer, nullable=False, index=True)
+    attribute_category = Column(String(255), nullable=False, index=True)
     counter_price = Column(Numeric(10, 2), nullable=False)
     extra_price = Column(Numeric(10, 2), nullable=False)
     is_new = Column(Integer, nullable=False)
     goods_unit = Column(String(255), nullable=False)
-    primary_pic_url = Column(String(255), nullable=False)
-    list_pic_url = Column(String(255), nullable=False)
+    primary_pic_url = Column(String(1000), nullable=False)
+    list_pic_url = Column(String(5000), nullable=False)
     retail_price = Column(Numeric(10, 2), nullable=False)
     sell_volume = Column(Integer, nullable=False)
     primary_product_id = Column(Integer, nullable=False)
@@ -104,7 +105,6 @@ class Goods(Base):
     promotion_desc = Column(String(255), nullable=False)
     promotion_tag = Column(String(255), nullable=False)
     app_exclusive_price = Column(Numeric(10, 2), nullable=False)
-    is_app_exclusive = Column(Integer, nullable=False)
     is_limited = Column(Integer, nullable=False)
     is_hot = Column(Integer, nullable=False)
 
